@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+<modelVersion>4.0.0</modelVersion>
+  <groupId>com.my</groupId>
+  <artifactId>TestngPrioDemo</artifactId>
+  <version>1.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <properties>
+    <java.version>1.8</java.version>
+    <encoding>UTF-8</encoding>
+    <hamcrest.version>2.1</hamcrest.version>
+    <maven.compile.encoding>UTF-8</maven.compile.encoding>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <testng.suite.file>test-suite.xml</testng.suite.file>
+  </properties>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest</artifactId>
+      <version>${hamcrest.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>${hamcrest.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>${hamcrest.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.5.1</version>               <!-- higher versions of testng make the tests slower and even hang them -->
+      <scope>test</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>UTF-8</encoding>
+          <showWarnings>true</showWarnings>
+          <compilerArgs>
+            <arg>-Xlint:all,-processing</arg>
+          </compilerArgs>
+        </configuration>
+        <version>3.7.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.14.1</version>
+        <configuration>
+          <properties>
+          </properties>
+          <systemPropertyVariables>
+            <org.apache.commons.logging.Log>org.apache.commons.logging.impl.NoOpLog</org.apache.commons.logging.Log>
+          </systemPropertyVariables>
+          <suiteXmlFiles>
+            <suiteXmlFile>${project.basedir}/src/test/resources/${testng.suite.file}</suiteXmlFile>
+          </suiteXmlFiles>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- here we define os specific properties, like the test suite for testng which runs selenium tests the selenium tests are operating system
+    specific (see http://docs.codehaus.org/display/mavenuser/profiles) -->
+  <profiles>
+    <!-- profile to run rest-api tests -->
+    <profile>
+      <id>rest-api</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <testng.suite.file>test-suite-rest-api.xml</testng.suite.file>
+      </properties>
+    </profile>
+
+  </profiles>
+
+  <repositories>
+  </repositories>
+
+</project>

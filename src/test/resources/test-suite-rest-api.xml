@@ -1,0 +1,10 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="test-suite-rest-api" verbose="0" thread-count="1" parallel="true">
+  <!-- rest api tests -->
+  <test name="rest-api-tests">
+    <packages>
+      <package name="com.acceptance.rest.*" />
+    </packages>
+  </test>
+
+</suite>
